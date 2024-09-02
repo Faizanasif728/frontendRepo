@@ -1,12 +1,13 @@
 import Counter from "./components/Counter";
-import Comp2 from "./components/Comp2";
-function App() {
-    return (
+const App = () => {
+  const items = ["jeans", "shirts", "jacket", "caps"];
+  return (
     <>
-        <Counter/>
-        <Comp2/>    
+      {items.map((item, index, arr) => {
+        return <Counter itemName={item} />;
+      })}
     </>
-  )
-}
+  );
+};
 
 export default App;
