@@ -1,11 +1,10 @@
-import Counter from "./components/Counter";
+import ProductsPage from "./pages/Products";
+import Home from "./pages/Home";
 const App = () => {
-  const items = ["jeans", "shirts", "jacket", "caps"];
   return (
     <>
-      {items.map((item, index, arr) => {
-        return <Counter itemName={item} />;
-      })}
+      <ProductsPage />
+      <Home />
     </>
   );
 };
