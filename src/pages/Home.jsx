@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Counter from "../components/Counter";
 const Home = () => {
-  const [items, setItem] = useState(["Jeans", "Shirt"]);
+  const [items, setItem] = useState(["Jeans", "Shirt", "jackets", "caps"]);
   const [userInput, setUserInput] = useState("");
   const inputChangeHandler = (e) => {
     setUserInput(e.target.value);
@@ -13,6 +13,11 @@ const Home = () => {
     setItem([...items, userInput]);
     setUserInput("");
   };
+
+  const deleteItem = (index) => {
+    setItem([...items.slice(0, index), ...items.slice(index + 1)]);
+  };
+
   useEffect(() => {
     const newValue = prompt("please enter new value");
     if (!newValue) {
@@ -20,10 +25,6 @@ const Home = () => {
     }
     setItem([...items, newValue]);
   }, []);
-
-  const deleteItem = (index) => {
-    setItem([...items.slice(0, index), ...items.slice(index + 1)]);
-  };
   return (
     <>
       <input
@@ -35,9 +36,9 @@ const Home = () => {
       {items.map((item, index, arr) => {
         return (
           <Counter
-            xyz={(n) => {
-              console.log("xyz called", n);
-            }}
+            // xyz={(n) => {
+            //   console.log("xyz called", n);
+            // }}
             key={index}
             itemName={item}
             onDelete={() => deleteItem(index)}

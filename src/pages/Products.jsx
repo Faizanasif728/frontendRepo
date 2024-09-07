@@ -2,21 +2,38 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 const ProductsPage = () => {
   const [products, setProducts] = useState([]);
-
+  const [searchedProducts, setSearchedProducts] = useState([]);
+  const [userInput, setUserInput] = useState("");
   const fetchProducts = async () => {
     const response = await axios.get("https://fakestoreapi.com/products");
     setProducts(response.data);
+    setSearchedProducts(response.data);
   };
-
+  const searchHandler = (e) => {
+    const userInput = e.target.value;
+    const searchResult = products.filter((item, index) => {
+      if (item.title.toLowerCase().includes(userInput.toLowerCase())) {
+        return true;
+      }
+    });
+    setSearchedProducts(searchResult);
+  };
+  const deleteItem = (id) => {
+    const updatedItems = products.filter((product) => {
+      return product.id !== id;
+    });
+    setProducts(updatedItems);
+    setSearchedProducts(updatedItems);
+    setUserInput(userInput);
+  };
   useEffect(() => {
-    console.log("hello");
     fetchProducts();
-    console.log("bye");
   }, []);
 
   return (
     <>
       <h1>Products Page</h1>
+      <input onChange={searchHandler} placeholder="Search products" />
       <div
         style={{
           display: "flex",
@@ -24,9 +41,9 @@ const ProductsPage = () => {
           justifyContent: "space-around",
         }}
       >
-        {products.map((product) => (
+        {searchedProducts.map((product) => (
           <div
-            key={products.id}
+            key={product.id}
             style={{
               border: "1px solid #ddd",
               borderRadius: "8px",
@@ -51,6 +68,7 @@ const ProductsPage = () => {
             ></img>
             <p>{product.description}</p>
             <p style={{ fontWeight: "bold" }}>Price: ${product.price}</p>
+            <button onClick={() => deleteItem(product.id)}>Delete</button>
           </div>
         ))}
       </div>
